@@ -33,16 +33,16 @@
             android:padding="8dp">
 
             <android.support.design.widget.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:backgroundTint="#00A1F5"
                 map:backgroundTint="#00A1F5"
                 android:onClick="workButtonClicked"
                 android:src="@drawable/ic_filter_list" />
 
             <android.support.design.widget.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:backgroundTint="#FF5A5F"

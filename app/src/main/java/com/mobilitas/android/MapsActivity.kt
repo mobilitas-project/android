@@ -51,7 +51,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private var clickedOnce = false
     private var workButtonClicked = false
     private var homeButtonClicked = false
-    private lateinit var jobs: List<Job>
+    private var jobs = mutableListOf<Job>()
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -260,7 +260,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             override fun onResponse(call: Call<List<Job>>, response: Response<List<Job>>) {
                 response.body().let {
                     if (it != null) {
-                        jobs = it
+                        jobs.addAll(it)
                         searchAndAddJobs()
                         searchAndAddHouses()
                     }
