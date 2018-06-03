@@ -27,6 +27,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.mobilitas.android.data.RetrofitInitializer
 import com.mobilitas.android.house.House
+import com.mobilitas.android.house.HouseService
 import com.mobilitas.android.job.Job
 import retrofit2.Call
 import retrofit2.Callback
@@ -107,7 +108,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.setOnMarkerClickListener(this)
         setUpMap()
-
+        searchAndAddHouses()
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
@@ -120,7 +121,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                         clickedOnce = true
                         mMap.clear()
                         placeMarkerOnMap(job, PinType.WORK)
-                        for (house in mockHouse()) {
+                        for (house in HouseService.getHouses()) {
                             if (MapUtils.distanceBetween(job.lat, job.lng, house.lat, house.lng) <= 1) {
                                 placeMarkerOnMap(house, PinType.HOME)
                             }
@@ -132,12 +133,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 Log.i("House ID", houseId)
             }
         } else {
-            for (job in jobs) {
-                placeMarkerOnMap(job, PinType.WORK)
-            }
-            for (house in mockHouse()) {
-                placeMarkerOnMap(house, PinType.HOME)
-            }
+            searchAndAddJobs()
+            searchAndAddHouses()
             clickedOnce = false
         }
         return false
@@ -189,27 +186,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
-    private fun getAddress(latlng: LatLng): String {
-        val geocoder = Geocoder(this)
-        val addresses: List<Address>?
-        val address: Address?
-        var addressText = ""
-
-        try {
-            addresses = geocoder.getFromLocation(latlng.latitude, latlng.longitude, 1)
-            if (null != addresses && !addresses.isEmpty()) {
-                address = addresses[0]
-                for (i in 0 until address.maxAddressLineIndex) {
-                    addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(i)
-                }
-            }
-        } catch (e: IOException) {
-            Log.e("MapsActivity", e.localizedMessage)
-        }
-
-        return addressText
-    }
-
     private fun startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
@@ -253,16 +229,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             floatingActionButton.setImageDrawable(resources.getDrawable(R.drawable.ic_close))
             workButtonClicked = true
             mMap.clear()
-            for (job in jobs) {
-                placeMarkerOnMap(job, PinType.WORK)
-            }
+            searchAndAddJobs()
         } else {
             floatingActionButton.setBackgroundColor(resources.getColor(R.color.blue))
             floatingActionButton.setImageDrawable(resources.getDrawable(R.drawable.ic_filter_list))
             workButtonClicked = false
-            for (house in mockHouse()) {
-                placeMarkerOnMap(house, PinType.HOME)
-            }
+            searchAndAddHouses()
         }
     }
 
@@ -273,16 +245,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             floatingActionButton.setImageDrawable(resources.getDrawable(R.drawable.ic_close))
             homeButtonClicked = true
             mMap.clear()
-            for (house in mockHouse()) {
-                placeMarkerOnMap(house, PinType.HOME)
-            }
+            searchAndAddHouses()
         } else {
             floatingActionButton.setBackgroundColor(resources.getColor(R.color.pink))
             floatingActionButton.setImageDrawable(resources.getDrawable(R.drawable.ic_filter_list))
             homeButtonClicked = false
-            for (job in jobs) {
-                placeMarkerOnMap(job, PinType.WORK)
-            }
+            searchAndAddJobs()
         }
     }
 
@@ -293,12 +261,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 response.body().let {
                     if (it != null) {
                         jobs = it
-                        for (job in jobs) {
-                            placeMarkerOnMap(job, PinType.WORK)
-                        }
-                        for (house in mockHouse()) {
-                            placeMarkerOnMap(house, PinType.HOME)
-                        }
+                        searchAndAddJobs()
+                        searchAndAddHouses()
                     }
                 }
             }
@@ -309,11 +273,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         })
     }
 
-    fun mockHouse(): List<House> {
-        val list = mutableListOf<House>()
-        list.add(House("0", -23.6048819, -46.6957957, "Apartamento com 1 dorm, 55m²", 4724.00, "Rua Sansão Alves dos Santos, Brooklin, São Paulo"))
-        list.add(House("1", -23.6080094, -46.6938952, "Apartamento com 3 dorms, 136m²", 7517.00, "Rua Arandu, Brooklin, São Paulo"))
-        list.add(House("2", -23.6129957, -46.6938146, "Apartamento com 1 dorm, 45m²", 3980.00, "Rua Castilho, Brooklin, São Paulo"))
-        return list.toList()
+    private fun searchAndAddJobs() {
+        for (job in jobs) {
+            placeMarkerOnMap(job, PinType.WORK)
+        }
+    }
+
+    private fun searchAndAddHouses() {
+        for (house in HouseService.getHouses()) {
+            placeMarkerOnMap(house, PinType.HOME)
+        }
     }
 }
