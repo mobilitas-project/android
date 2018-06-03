@@ -1,6 +1,7 @@
 package com.mobilitas.android
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityCompat
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -24,11 +26,14 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import java.io.IOException
 import android.support.v7.widget.Toolbar
-import android.view.View
+import android.view.*
+import android.widget.SeekBar
+import android.widget.TextView
 import com.mobilitas.android.data.RetrofitInitializer
 import com.mobilitas.android.house.House
 import com.mobilitas.android.house.HouseService
 import com.mobilitas.android.job.Job
+import kotlinx.android.synthetic.main.popup_radiobutton.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -117,6 +122,48 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             startActivity(Intent(this@MapsActivity, InfoJobActivity::class.java))
         }
         return false
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == R.id.filter) {
+            val builder = AlertDialog.Builder(this@MapsActivity)
+            builder.setTitle("Filtrar mapa")
+            val viewInflated = LayoutInflater.from(this@MapsActivity).inflate(R.layout.popup_radiobutton, null)
+            val seekTempo = viewInflated.findViewById<SeekBar>(R.id.seekTempo)
+            val textSeekTempo = viewInflated.findViewById<TextView>(R.id.textSeekTempo)
+            seekTempo.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    textSeekTempo.text = "" + progress + " minutos"
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            })
+            val seekDinheiro = viewInflated.findViewById<SeekBar>(R.id.seekDinheiro)
+            val textSeekDinheiro = viewInflated.findViewById<TextView>(R.id.textSeekDinheiro)
+            seekDinheiro.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    textSeekDinheiro.text = "R$" + progress
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            })
+            builder.setView(viewInflated)
+            builder.setPositiveButton(android.R.string.ok) { dialog, _ ->
+                onResume()
+                dialog.dismiss()
+            }
+            builder.show()
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setUpMap() {

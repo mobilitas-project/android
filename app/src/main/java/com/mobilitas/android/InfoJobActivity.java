@@ -37,7 +37,7 @@ public class InfoJobActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Information Job");
+        toolbar.setTitle("Informacao da vaga");
         setTitleColor(getResources().getColor(android.R.color.white));
         toolbar.setBackgroundColor(getResources().getColor((R.color.background_red)));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -48,7 +48,7 @@ public class InfoJobActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(InfoJobActivity.this);
-                builder.setTitle("List Houses");
+                builder.setTitle("Lista de casas");
                 View viewInflated = LayoutInflater.from(InfoJobActivity.this).inflate(R.layout.popup_text, (ViewGroup) v.getRootView(), false);
                 builder.setView(viewInflated);
 
@@ -75,12 +75,6 @@ public class InfoJobActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         onResume();
                         dialog.dismiss();
-                    }
-                });
-                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
                     }
                 });
 
