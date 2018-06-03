@@ -10,6 +10,7 @@ import android.location.Geocoder
 import android.location.Location
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityCompat
 import android.util.Log
 import com.google.android.gms.common.api.ResolvableApiException
@@ -22,10 +23,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import java.io.IOException
-import android.view.WindowManager
-import android.os.Build
 import android.support.v7.widget.Toolbar
 import android.view.View
+import com.mobilitas.android.data.RetrofitInitializer
+import com.mobilitas.android.house.House
+import com.mobilitas.android.job.Job
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -40,6 +45,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var mLocationCallback: LocationCallback
     private lateinit var mLocationRequest: LocationRequest
     private var mLocationUpdateState = false
+    private var mMarkers = HashMap<String, String>()
+    private var mMarkersForHouse = HashMap<String, String>()
+    private var clickedOnce = false
+    private var workButtonClicked = false
+    private var homeButtonClicked = false
+    private lateinit var jobs: List<Job>
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -66,6 +77,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
         }
         createLocationRequest()
+        requestJob()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -98,7 +110,38 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     }
 
-    override fun onMarkerClick(p0: Marker?) = false
+    override fun onMarkerClick(marker: Marker?): Boolean {
+        if (!clickedOnce) {
+            val jobId = mMarkers.get(marker?.id)
+            if (jobId != null) {
+                Log.i("Job ID", jobId)
+                for (job in jobs) {
+                    if (job.id.equals(jobId)) {
+                        clickedOnce = true
+                        mMap.clear()
+                        placeMarkerOnMap(job, PinType.WORK)
+                        for (house in mockHouse()) {
+                            if (MapUtils.distanceBetween(job.lat, job.lng, house.lat, house.lng) <= 1) {
+                                placeMarkerOnMap(house, PinType.HOME)
+                            }
+                        }
+                    }
+                }
+            } else {
+                val houseId = mMarkersForHouse.get(marker?.id)
+                Log.i("House ID", houseId)
+            }
+        } else {
+            for (job in jobs) {
+                placeMarkerOnMap(job, PinType.WORK)
+            }
+            for (house in mockHouse()) {
+                placeMarkerOnMap(house, PinType.HOME)
+            }
+            clickedOnce = false
+        }
+        return false
+    }
 
     private fun setUpMap() {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -116,19 +159,34 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
-    private fun placeMarkerOnMap(location: LatLng, pinType: PinType) {
-        val markerOptions = MarkerOptions().position(location)
+    private fun placeMarkerOnMap(location: Any, pinType: PinType) {
         when (pinType) {
-            PinType.WORK -> markerOptions.icon(MapUtils.bitmapDescriptorFromVector(this, R.drawable.ic_pin_blue_work))
-            PinType.HOME -> markerOptions.icon(MapUtils.bitmapDescriptorFromVector(this, R.drawable.ic_pin_pink_home))
+            PinType.WORK -> {
+                val job = location as Job
+                val latLng = LatLng(job.lat, job.lng)
+                val markerOptions = MarkerOptions()
+                        .position(latLng)
+                        .title(job.title)
+                        .snippet(job.activities)
+                markerOptions.icon(MapUtils.bitmapDescriptorFromVector(this, R.drawable.ic_pin_blue_work))
+                val marker = mMap.addMarker(markerOptions)
+                mMarkers.put(marker.id, job.id)
+            }
+            PinType.HOME -> {
+                val house = location as House
+                val latLng = LatLng(house.lat, house.lng)
+                val markerOptions = MarkerOptions()
+                        .position(latLng)
+                        .title(house.name)
+                        .snippet(house.address)
+                markerOptions.icon(MapUtils.bitmapDescriptorFromVector(this, R.drawable.ic_pin_pink_home))
+                val marker = mMap.addMarker(markerOptions)
+                mMarkersForHouse.put(marker.id, house.id)
+            }
             else -> {
                 return
             }
         }
-        val titleStr = getAddress(location)
-        markerOptions.title(titleStr)
-        mMap.addMarker(markerOptions)
-
     }
 
     private fun getAddress(latlng: LatLng): String {
@@ -186,5 +244,76 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 }
             }
         }
+    }
+
+    fun workButtonClicked(view: View) {
+        val floatingActionButton = view as FloatingActionButton
+        if (!workButtonClicked) {
+            floatingActionButton.setBackgroundColor(resources.getColor(android.R.color.white))
+            floatingActionButton.setImageDrawable(resources.getDrawable(R.drawable.ic_close))
+            workButtonClicked = true
+            mMap.clear()
+            for (job in jobs) {
+                placeMarkerOnMap(job, PinType.WORK)
+            }
+        } else {
+            floatingActionButton.setBackgroundColor(resources.getColor(R.color.blue))
+            floatingActionButton.setImageDrawable(resources.getDrawable(R.drawable.ic_filter_list))
+            workButtonClicked = false
+            for (house in mockHouse()) {
+                placeMarkerOnMap(house, PinType.HOME)
+            }
+        }
+    }
+
+    fun homeButtonClicked(view: View) {
+        val floatingActionButton = view as FloatingActionButton
+        if (!homeButtonClicked) {
+            floatingActionButton.setBackgroundColor(resources.getColor(android.R.color.white))
+            floatingActionButton.setImageDrawable(resources.getDrawable(R.drawable.ic_close))
+            homeButtonClicked = true
+            mMap.clear()
+            for (house in mockHouse()) {
+                placeMarkerOnMap(house, PinType.HOME)
+            }
+        } else {
+            floatingActionButton.setBackgroundColor(resources.getColor(R.color.pink))
+            floatingActionButton.setImageDrawable(resources.getDrawable(R.drawable.ic_filter_list))
+            homeButtonClicked = false
+            for (job in jobs) {
+                placeMarkerOnMap(job, PinType.WORK)
+            }
+        }
+    }
+
+    private fun requestJob() {
+        val call = RetrofitInitializer().jobService().fetchJobs()
+        call.enqueue(object : Callback<List<Job>> {
+            override fun onResponse(call: Call<List<Job>>, response: Response<List<Job>>) {
+                response.body().let {
+                    if (it != null) {
+                        jobs = it
+                        for (job in jobs) {
+                            placeMarkerOnMap(job, PinType.WORK)
+                        }
+                        for (house in mockHouse()) {
+                            placeMarkerOnMap(house, PinType.HOME)
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Job>>, t: Throwable?) {
+                Log.e("OnFailure error", t?.message)
+            }
+        })
+    }
+
+    fun mockHouse(): List<House> {
+        val list = mutableListOf<House>()
+        list.add(House("0", -23.6048819, -46.6957957, "Apartamento com 1 dorm, 55m²", 4724.00, "Rua Sansão Alves dos Santos, Brooklin, São Paulo"))
+        list.add(House("1", -23.6080094, -46.6938952, "Apartamento com 3 dorms, 136m²", 7517.00, "Rua Arandu, Brooklin, São Paulo"))
+        list.add(House("2", -23.6129957, -46.6938146, "Apartamento com 1 dorm, 45m²", 3980.00, "Rua Castilho, Brooklin, São Paulo"))
+        return list.toList()
     }
 }
