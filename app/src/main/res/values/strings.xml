@@ -3,13 +3,14 @@
 
     <string name="google_maps_key">AIzaSyCXPW43H5lUyj9H1YYsZh7vPoInHnk-4Kg</string>
 
+    <string name="intro_1_title">GASTOS</string>
+    <string name="intro_2_title">DISTÂNCIA</string>
+    <string name="intro_3_title">TEMPO</string>
+    <string name="intro_4_title">MOBILITAS</string>
 
-    <string name="intro_1_title"></string>
-    <string name="intro_2_title"></string>
-    <string name="intro_3_title"></string>
-
-    <string name="intro_1_desc"></string>
-    <string name="intro_2_desc"></string>
-    <string name="intro_3_desc"></string>
+    <string name="intro_1_desc">Encurtando distâncias e descobrindo novos caminhos.</string>
+    <string name="intro_2_desc">Soluções que cabem no seu bolso.</string>
+    <string name="intro_3_desc">Oportunidade de mudanças otimizando seu tempo.</string>
+    <string name="intro_4_desc">Te levando com mais qualidade ao trabalho.</string>
 
 </resources>

@@ -9,4 +9,10 @@
 
     <color name="background_red">#FF5A5F</color>
     <color name="background_blue">#00A1F5</color>
+
+    <color name="gastos">#00A99D</color>
+    <color name="distancia">#662D91</color>
+    <color name="tempo">#F7931E</color>
+    <color name="mobilitas">#808080</color>
+
 </resources>

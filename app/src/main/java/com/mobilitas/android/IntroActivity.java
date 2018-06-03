@@ -22,10 +22,10 @@ public class IntroActivity extends AppIntro {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
-
-        addSlide(AppIntroFragment.newInstance(getString(R.string.intro_2_title), getString(R.string.intro_2_desc), R.drawable.building, getResources().getColor(R.color.colorPrimary)));
-        addSlide(AppIntroFragment.newInstance(getString(R.string.intro_3_title), getString(R.string.intro_3_desc), R.drawable.building, getResources().getColor(R.color.colorPrimary)));
-        addSlide(AppIntroFragment.newInstance(getString(R.string.intro_1_title), getString(R.string.intro_1_desc), R.drawable.building, getResources().getColor(R.color.colorPrimary)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.intro_1_title), getString(R.string.intro_1_desc), R.drawable.gastos, getResources().getColor(R.color.gastos)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.intro_3_title), getString(R.string.intro_3_desc), R.drawable.tempo, getResources().getColor(R.color.tempo)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.intro_2_title), getString(R.string.intro_2_desc), R.drawable.distancia, getResources().getColor(R.color.distancia)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.intro_4_title), getString(R.string.intro_4_desc), R.drawable.final_image, getResources().getColor(R.color.mobilitas)));
 
         showSkipButton(false);
     }
