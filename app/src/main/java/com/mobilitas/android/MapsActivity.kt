@@ -126,6 +126,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                                 placeMarkerOnMap(house, PinType.HOME)
                             }
                         }
+
+                        startActivity(Intent(this@MapsActivity, InfoJobActivity::class.java))
+                        this@MapsActivity.finish()
+
                     }
                 }
             } else {

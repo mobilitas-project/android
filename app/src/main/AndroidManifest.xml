@@ -25,6 +25,9 @@
         <activity
             android:name=".MapsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".InfoJobActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

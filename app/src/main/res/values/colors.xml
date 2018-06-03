@@ -6,4 +6,10 @@
 
     <color name="pink">#FF5A5F</color>
     <color name="blue">#00A1F5</color>
+
+
+    <color name="background_red">#FF5A5F</color>
+
+    <color name="background_blue">#00A1F5</color>
+    <color name="white">#FFFFFF</color>
 </resources>
