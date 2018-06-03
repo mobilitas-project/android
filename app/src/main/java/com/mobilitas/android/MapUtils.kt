@@ -19,19 +19,4 @@ object MapUtils {
         vectorDrawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
-
-
-    fun distanceBetween(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Double {
-        val locationA = Location("Point A")
-        locationA.latitude = lat1
-        locationA.longitude = lng1
-
-        val locationB = Location("Point B")
-        locationB.latitude = lat1
-        locationB.longitude = lng2
-
-        val dist = (locationA.distanceTo(locationB) / 1000).toDouble()
-        Log.i("Distance of", dist.toString())
-        return dist
-    }
 }

@@ -15,7 +15,14 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_marginTop="24dp"
-            android:elevation="1dp" />
+            android:elevation="1dp">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_logo" />
+
+        </android.support.v7.widget.Toolbar>
 
         <fragment
             android:id="@+id/map"
@@ -35,20 +42,22 @@
             <android.support.design.widget.FloatingActionButton
                 android:layout_width="55dp"
                 android:layout_height="55dp"
+                android:background="#00A1F5"
                 android:backgroundTint="#00A1F5"
-                map:backgroundTint="#00A1F5"
                 android:onClick="workButtonClicked"
-                android:src="@drawable/ic_filter_list" />
+                android:src="@drawable/ic_work_blue"
+                map:backgroundTint="#00A1F5" />
 
             <android.support.design.widget.FloatingActionButton
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
+                android:background="#FF5A5F"
                 android:backgroundTint="#FF5A5F"
-                map:backgroundTint="#FF5A5F"
                 android:onClick="homeButtonClicked"
-                android:src="@drawable/ic_filter_list" />
+                android:src="@drawable/ic_house_pink"
+                map:backgroundTint="#FF5A5F" />
 
         </LinearLayout>
 

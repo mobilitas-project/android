@@ -27,7 +27,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".InfoJobActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".IntroActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

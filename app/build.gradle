@@ -41,4 +41,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    implementation 'com.github.paolorotolo:appintro:4.1.0'
 }

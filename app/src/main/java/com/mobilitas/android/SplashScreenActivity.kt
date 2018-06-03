@@ -17,7 +17,7 @@ class SplashScreenActivity : AppCompatActivity() {
         supportActionBar?.hide()
         // Set up timer to open new Activity
         Timer().schedule(timerTask {
-            startActivity(Intent(this@SplashScreenActivity, MapsActivity::class.java))
+            startActivity(Intent(this@SplashScreenActivity, IntroActivity::class.java))
             this@SplashScreenActivity.finish()
         }, 3000)
     }

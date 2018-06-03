@@ -21,114 +21,114 @@
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:layout_marginTop="-50dp"
-        android:src="@drawable/building"/>
-
-    <LinearLayout
-        android:background="@color/background_blue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-        <android.support.v7.widget.AppCompatTextView
+        <ImageView
             android:layout_width="match_parent"
-            android:id="@+id/title_job"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textStyle="bold"
-            android:textSize="16dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:text="TFS - Analista I de Desenvolvimento de Software"/>
+            android:layout_height="230dp"
+            android:layout_marginTop="-50dp"
+            android:src="@drawable/building" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:background="@color/background_blue"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/title_job"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:text="TFS - Analista I de Desenvolvimento de Software"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/salary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="2"
+                    android:text="R$ 3.500,00 (CLT) "
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <Button
+                    android:id="@+id/btn_view_houses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/job_button"
+                    android:text="VIEW HOUSES"
+                    android:textColor="@color/background_red" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Pré requisitos"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:textStyle="normal"
-                android:textSize="16dp"
-                android:text="R$ 3.500,00 (CLT) "
-                android:textColor="@color/white"
-                android:id="@+id/salary"
-                android:layout_weight="1"/>
-
-            <Button
-                android:id="@+id/btn_view_houses"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="VIEW HOUSES"
-                android:textColor="@color/white"
-                android:layout_margin="10dp"
-                android:background="@color/background_red"
-                android:layout_weight="2"/>
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:background="@color/colorPrimaryDark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textStyle="bold"
-            android:text="Pré requisitos"/>
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_height="wrap_content"
-            android:text="- Lógica de programação;
+                android:text="- Lógica de programação;
 - Experiência com desenvolvimento de software;
 - Experiência no desenvolvimento de aplicações utilizando a linguagem Java;
 - Desejável conhecimento em regras de negócios do mercado financeiro (investimentos);
-- Desejável conhecimento na arquitetura EJB, Banco de Dados Oracle, Ambiente J Boss;"/>
+- Desejável conhecimento na arquitetura EJB, Banco de Dados Oracle, Ambiente J Boss;"
+                android:textColor="@android:color/white" />
 
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_margin="10dp"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"
-            android:text="Escolaridade"/>
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Escolaridade"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_height="wrap_content"
-            android:text="Superior completo em Tecnologia e áreas afins"/>
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="Superior completo em Tecnologia e áreas afins"
+                android:textColor="@android:color/white" />
 
-    </LinearLayout>
-
-
+        </LinearLayout>
 
     </LinearLayout>
 

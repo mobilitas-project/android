@@ -2,4 +2,14 @@
     <string name="app_name">Mobilitas</string>
 
     <string name="google_maps_key">AIzaSyCXPW43H5lUyj9H1YYsZh7vPoInHnk-4Kg</string>
+
+
+    <string name="intro_1_title"></string>
+    <string name="intro_2_title"></string>
+    <string name="intro_3_title"></string>
+
+    <string name="intro_1_desc"></string>
+    <string name="intro_2_desc"></string>
+    <string name="intro_3_desc"></string>
+
 </resources>

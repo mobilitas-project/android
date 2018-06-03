@@ -48,7 +48,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private var mLocationUpdateState = false
     private var mMarkers = HashMap<String, String>()
     private var mMarkersForHouse = HashMap<String, String>()
-    private var clickedOnce = false
     private var workButtonClicked = false
     private var homeButtonClicked = false
     private var jobs = mutableListOf<Job>()
@@ -63,6 +62,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         setContentView(R.layout.activity_maps)
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         toolbar.setBackgroundColor(Color.TRANSPARENT)
+        toolbar.setTitleTextColor(resources.getColor(R.color.background_red))
         setSupportActionBar(toolbar)
         window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
 
@@ -112,34 +112,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
-        if (!clickedOnce) {
-            val jobId = mMarkers.get(marker?.id)
-            if (jobId != null) {
-                Log.i("Job ID", jobId)
-                for (job in jobs) {
-                    if (job.id.equals(jobId)) {
-                        clickedOnce = true
-                        mMap.clear()
-                        placeMarkerOnMap(job, PinType.WORK)
-                        for (house in HouseService.getHouses()) {
-                            if (MapUtils.distanceBetween(job.lat, job.lng, house.lat, house.lng) <= 1) {
-                                placeMarkerOnMap(house, PinType.HOME)
-                            }
-                        }
-
-                        startActivity(Intent(this@MapsActivity, InfoJobActivity::class.java))
-                        this@MapsActivity.finish()
-
-                    }
-                }
-            } else {
-                val houseId = mMarkersForHouse.get(marker?.id)
-                Log.i("House ID", houseId)
-            }
-        } else {
-            searchAndAddJobs()
-            searchAndAddHouses()
-            clickedOnce = false
+        val jobId = mMarkers.get(marker?.id)
+        if (jobId != null) {
+            startActivity(Intent(this@MapsActivity, InfoJobActivity::class.java))
         }
         return false
     }
@@ -155,7 +130,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             if (location != null) {
                 mLastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17.0f))
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15.0f))
             }
         }
     }
@@ -236,7 +211,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             searchAndAddJobs()
         } else {
             floatingActionButton.setBackgroundColor(resources.getColor(R.color.blue))
-            floatingActionButton.setImageDrawable(resources.getDrawable(R.drawable.ic_filter_list))
+            floatingActionButton.setImageDrawable(resources.getDrawable(R.drawable.ic_work_blue))
             workButtonClicked = false
             searchAndAddHouses()
         }
@@ -252,7 +227,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             searchAndAddHouses()
         } else {
             floatingActionButton.setBackgroundColor(resources.getColor(R.color.pink))
-            floatingActionButton.setImageDrawable(resources.getDrawable(R.drawable.ic_filter_list))
+            floatingActionButton.setImageDrawable(resources.getDrawable(R.drawable.ic_house_pink))
             homeButtonClicked = false
             searchAndAddJobs()
         }

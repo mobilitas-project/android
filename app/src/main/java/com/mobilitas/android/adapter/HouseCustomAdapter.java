@@ -25,9 +25,9 @@ public class HouseCustomAdapter extends RecyclerView.Adapter<HouseCustomAdapter.
 
         public MyViewHolder(View view) {
             super(view);
-            name          = (TextView) view.findViewById(R.id.name);
-            address           = (TextView) view.findViewById(R.id.address);
-            price         = (TextView) view.findViewById(R.id.price);
+            name = (TextView) view.findViewById(R.id.name);
+            address = (TextView) view.findViewById(R.id.address);
+            price = (TextView) view.findViewById(R.id.price);
             ll_card_bike = (LinearLayout) view.findViewById(R.id.newsfeeds_card);
         }
     }
@@ -51,9 +51,7 @@ public class HouseCustomAdapter extends RecyclerView.Adapter<HouseCustomAdapter.
         final House house = houseList.get(position);
         holder.name.setText("" + house.getName());
         holder.address.setText("" + house.getAddress());
-        holder.price.setText("" + house.getPrice());
-
-        Random r = new Random();
+        holder.price.setText("R$" + house.getPrice());
     }
 
     @Override

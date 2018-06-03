@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -26,7 +27,6 @@ public class InfoJobActivity extends AppCompatActivity {
 
     Button btn_view_houses;
 
-    private ArrayList<House> userList;
     private RecyclerView recyclerView;
     private HouseCustomAdapter houseCustomAdapter;
 
@@ -38,7 +38,7 @@ public class InfoJobActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Information Job");
-        setTitleColor(getResources().getColor(R.color.white));
+        setTitleColor(getResources().getColor(android.R.color.white));
         toolbar.setBackgroundColor(getResources().getColor((R.color.background_red)));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -54,17 +54,17 @@ public class InfoJobActivity extends AppCompatActivity {
 
                 recyclerView = (RecyclerView) viewInflated.findViewById(R.id.recycler_view);
 
-                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(viewInflated.getContext(), 2);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(viewInflated.getContext());
                 recyclerView.setLayoutManager(mLayoutManager);
 
 
                 List<House> l = new ArrayList<House>();
-                l.add(new House("1",0, 0, "House 1", 1200, "Av. Braz Leme, 1000"));
-                l.add(new House("1",0, 0, "House 1", 1200, "Av. Braz Leme, 1000"));
-                l.add(new House("1",0, 0, "House 1", 1200, "Av. Braz Leme, 1000"));
-                l.add(new House("1",0, 0, "House 1", 1200, "Av. Braz Leme, 1000"));
-                l.add(new House("1",0, 0, "House 1", 1200, "Av. Braz Leme, 1000"));
-                l.add(new House("1",0, 0, "House 1", 1200, "Av. Braz Leme, 1000"));
+                l.add(new House("33", -23.5848364, -46.6777537, "Apartamento com 1 dorm, 70m²", 4852.00, "Rua Bandeira Paulista, Itaim Bibi, São Paulo"));
+                l.add(new House("34", -23.587439, -46.6758302, "Studio com 1 dorm, 79m²", 5017.00, "Rua Benedito Lapin, Vila Olímpia, São Paulo"));
+                l.add(new House("32", -23.5931217, -46.6837197, "Apartamento com 1 dorm, 32m²", 6035.00, "Rua Coronel Joaquim Ferreira Lobo, Vila Olímpia, São Paulo"));
+                l.add(new House("31", -23.5923958, -46.6830733, "Studio com 1 dorm, 52m²", 6622.00, "Rua Ministro Jesuíno Cardoso, Vila Olímpia, São Paulo"));
+                l.add(new House("35", -23.5815706, -46.6838131, "Apartamento com 3 dorms, 147m²", 6520.00, "Rua André Fernandes, Itaim Bibi, São Paulo"));
+                l.add(new House("36", -23.5814246, -46.6792123, "Apartamento com 1 dorm, 60m²", 6914.00, "Rua Pedroso Alvarenga, Itaim Bibi, São Paulo"));
 
                 houseCustomAdapter = new HouseCustomAdapter(getBaseContext(), l);
 
